@@ -1,6 +1,17 @@
+# Very inefficient, could use some major speed improvements
+# For now we just use a progress-bar indicator :)
+# Install progress-bar with: ge instal ruby-progressbar
+
+
+require 'ruby-progressbar'
+
 till_number = 100000000
 amount_omkeerbaar = 0
-
+progress_bar = ProgressBar.create( :format         => '%a %bᗧ%i %p%% %t',
+                                   :progress_mark  => ' ',
+                                   :remainder_mark => '･',
+                                   :starting_at    => 0,
+		                   :total => till_number)
 def is_even?(number)
   return  number%2 == 0
 end
@@ -27,6 +38,7 @@ end
 
 
 (0..till_number).each do |number|
+  progress_bar.increment
   if number%10 == 0
     # puts "ignore #{number}"
   else
