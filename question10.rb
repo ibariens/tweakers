@@ -1,25 +1,16 @@
-require 'ruby-progressbar'
-
 @lines = File.open('vraag_10_triangle.txt').readlines
 @max_amount = 0
-
-
-till_number = 100000000
-amount_omkeerbaar = 0
-@progress_bar = ProgressBar.create( :format         => '%a %bᗧ%i %p%% %t',
-                                    :progress_mark  => ' ',
-                                    :remainder_mark => '･',
-                                    :starting_at    => 0,
-		                    :total => 2**(@lines.length-1))
-
-
+@current_possibility = 0
+@total_possibilities = 2**(@lines.length-1)
 
 def find_max(line_index, number_position, path)
 
   if line_index == @lines.length()
     sum_path    = path.inject(:+)
     @max_amount = sum_path if sum_path > @max_amount
-    @progress_bar.increment
+    @current_possibility = @current_possibility + 1
+    print "\r#{@current_possibility} of #{@total_possibilities} complete = #{(@current_possibility.to_f / @total_possibilities.to_f * 100).round(2)}%"
+
   else
     positions = [number_position, number_position+1]
     new_line_index = line_index + 1
@@ -37,4 +28,4 @@ def find_max(line_index, number_position, path)
 end
 
 find_max(0,0, [])
-puts @max_amount
+puts "--Outcome: #{@max_amount}"
